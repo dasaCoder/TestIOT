@@ -11,14 +11,23 @@ void thermometer(double temp) {
 
 	curl = curl_easy_init();
 
-	if (curl) {
-		curl_easy_setopt(curl, CURLOPT_URL, "api.thingspeak.com:80");
-		curl_easy_setopt(curl, CURLOPT_POST, 1);
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "field1=" + std::to_string(temp) + "&key=example");
-		res = curl_easy_perform(curl);
-		curl_easy_cleanup(curl);
+	string api_key = "your api key";
 
-		cout << endl;
+	if (curl) {
+		curl_easy_setopt(curl, CURLOPT_URL, "https://iottest.free.beeceptor.com");
+		curl_easy_setopt(curl, CURLOPT_POST, 1);
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "field1=" + std::to_string(temp) + "&key=" + api_key);
+
+		res = curl_easy_perform(curl);
+
+		if (res != CURLE_OK)
+			cout << curl_easy_strerror(res) << endl;
+
+		cout << res << endl;
+		curl_easy_cleanup(curl);
+	}
+	else {
+		cout << "not run";
 	}
 	//return 0;
 }
